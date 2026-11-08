@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class SystemServiceClient {
@@ -21,6 +22,7 @@ public class SystemServiceClient {
     private final WebClient systemWebClient;
 
     public CustomerResponse createCustomer(CustomerRequest request) {
+        log.info("Calling System Service: POST /internal/customers");
         return systemWebClient.post()
                 .uri("/internal/customers")
                 .bodyValue(request)
@@ -31,6 +33,7 @@ public class SystemServiceClient {
     }
 
     public OrderResponse createOrder(OrderRequest request) {
+        log.info("Calling System Service: POST /internal/orders");
         return systemWebClient.post()
                 .uri("/internal/orders")
                 .bodyValue(request)
@@ -41,6 +44,7 @@ public class SystemServiceClient {
     }
 
     public List<OrderResponse> getCustomerOrders(Long customerId) {
+        log.info("Calling System Service: GET /internal/customers/{}/orders", customerId);
         return systemWebClient.get()
                 .uri("/internal/customers/{customerId}/orders", customerId)
                 .retrieve()
@@ -51,6 +55,7 @@ public class SystemServiceClient {
     }
 
     public OrderResponse updateOrderStatus(Long orderId, UpdateOrderStatusRequest status) {
+        log.info("Calling System Service: PUT /internal/orders/{}/status", orderId);
         return systemWebClient.put()
                 .uri(uriBuilder -> uriBuilder
                         .path("/internal/orders/{orderId}/status")
