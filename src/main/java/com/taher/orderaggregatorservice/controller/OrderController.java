@@ -6,14 +6,16 @@ import com.taher.orderaggregatorservice.service.OrderService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
-@RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
 @Validated
+@RequestMapping("/api/v1/orders")
 public class OrderController {
 
     private final OrderService orderService;
@@ -21,6 +23,7 @@ public class OrderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public OrderResponse createOrder(@RequestBody @Valid OrderRequest request) {
+        log.info("Incoming request: POST /api/v1/orders");
         return orderService.createOrder(request);
     }
 
@@ -34,6 +37,7 @@ public class OrderController {
             @Valid
             UpdateOrderStatusRequest status
     ) {
+        log.info("Incoming request: PUT /api/v1/orders/{}/status", id);
         return orderService.updateOrderStatus(id, status);
     }
 }
